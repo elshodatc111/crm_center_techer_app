@@ -8,10 +8,10 @@ class PaymartPage extends StatefulWidget {
   const PaymartPage({super.key});
 
   @override
-  _PaymentsPageState createState() => _PaymentsPageState();
+  _PaymartPageState createState() => _PaymartPageState();
 }
 
-class _PaymentsPageState extends State<PaymartPage> {
+class _PaymartPageState extends State<PaymartPage> {
   final String apiUrl = '${AppConstants.apiUrl}/paymart';
 
   Future<List<dynamic>> fetchPayments() async {
@@ -30,7 +30,7 @@ class _PaymentsPageState extends State<PaymartPage> {
         final data = json.decode(response.body);
         return data['message'];
       } else {
-        print("API xatosi: ${response.statusCode} - ${response.body}");
+        print("API xatosi: \${response.statusCode} - \${response.body}");
         return [];
       }
     } catch (e) {
@@ -42,14 +42,27 @@ class _PaymentsPageState extends State<PaymartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text(
+          "To'lovlar",
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+      ),
       body: FutureBuilder<List<dynamic>>(
         future: fetchPayments(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            print("FutureBuilder xatosi: ${snapshot.error}");
-            return Center(child: Text("Xatolik: ${snapshot.error}"));
+            print("FutureBuilder xatosi: \${snapshot.error}");
+            return Center(child: Text("Xatolik: \${snapshot.error}"));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text("To‘lovlar topilmadi"));
           }
@@ -69,6 +82,7 @@ class _PaymentsPageState extends State<PaymartPage> {
 
   Widget _buildPaymentCard(Map<String, dynamic> payment) {
     return Card(
+      color: Colors.white,
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -82,9 +96,9 @@ class _PaymentsPageState extends State<PaymartPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Guruhning nomi",
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
+                Text("${payment['group_name']}",
+                    style:
+                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 Text(
                   "${payment['amount']} so‘m",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

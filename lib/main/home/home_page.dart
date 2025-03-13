@@ -54,12 +54,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          "A T K O",
+        title: const Text(
+          "Guruhlar",
           style: TextStyle(
-            color: Colors.red,
-            fontSize: 32.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
         centerTitle: true,
@@ -137,7 +137,7 @@ class CourseCard extends StatelessWidget {
                         top: 8,
                         right: 16,
                         child: Text(
-                          type,
+                          type=='end'?'Yakunlangan':type=='active'?'Aktiv':'Yangi',
                           style: TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.bold,
