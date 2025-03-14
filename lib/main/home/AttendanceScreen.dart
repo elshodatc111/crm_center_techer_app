@@ -101,6 +101,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             color: Colors.white,
           ),
         ),
+        leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          Navigator.pop(context, true);
+        },
+      ),
         centerTitle: true,
         backgroundColor: Colors.blue,
       ),
@@ -131,13 +137,22 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               },
             ),
           ),
-          Padding(
+          widget.users.isNotEmpty?Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: isAllSelected ? _submitAttendance : null,
-              child: const Text("Davomatni yuborish"),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: isAllSelected ? _submitAttendance : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isAllSelected ? Colors.blue : Colors.grey,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text("Davomatni yuborish"),
+              ),
             ),
-          ),
+          ): const Center(
+            child: Text("Guruh talabalari mavjud emas."),
+          )
         ],
       ),
     );

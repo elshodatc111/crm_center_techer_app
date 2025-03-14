@@ -16,8 +16,6 @@ class GroupInfo extends StatelessWidget {
         InfoRow(label: "Boshlanish vaqti:", value: group['lessen_start']),
         InfoRow(label: "Tugash vaqti:", value: group['lessen_end']),
         InfoRow(label: "Darslar soni:", value: "${group['lessen_count']}"),
-        InfoRow(label: "O‘qituvchiga to‘lov:", value: "${group['techer_paymart']} so'm"),
-        InfoRow(label: "O‘qituvchiga bonus:", value: "${group['techer_bonus']} so'm"),
         InfoRow(label: "Dars xonasi:", value: group['room']),
       ],
     );

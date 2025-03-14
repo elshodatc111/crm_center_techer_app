@@ -7,37 +7,54 @@ class AttendanceHistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          "📅 Dars Kunlari",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("Dars kunlari",
+            style: TextStyle(
+                fontSize: 20.0,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
         ),
-        const SizedBox(height: 8), // Matn bilan list orasiga joy tashlash
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 8), // Matn bilan list orasiga joy tashlash
 
-        Wrap(
-          spacing: 16, // Elementlar orasidagi gorizontal bo'shliq
-          runSpacing: 8, // Qatorlar orasidagi vertikal bo'shliq
-          children: List.generate(
-            (attendanceHistory.length / 2).ceil(), // Ikkitadan qo'shish
+            Wrap(
+              spacing: 16, // Elementlar orasidagi gorizontal bo'shliq
+              runSpacing: 8, // Qatorlar orasidagi vertikal bo'shliq
+              children: List.generate(
+                (attendanceHistory.length / 2).ceil(), // Ikkitadan qo'shish
                 (index) {
-              int firstIndex = index * 2;
-              int secondIndex = firstIndex + 1;
+                  int firstIndex = index * 2;
+                  int secondIndex = firstIndex + 1;
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildAttendanceItem(attendanceHistory[firstIndex]),
-                  secondIndex < attendanceHistory.length
-                      ? _buildAttendanceItem(attendanceHistory[secondIndex])
-                      : const SizedBox(), // Agar ikkinchi element bo'lmasa bo'sh joy
-                ],
-              );
-            },
-          ),
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildAttendanceItem(attendanceHistory[firstIndex]),
+                      secondIndex < attendanceHistory.length
+                          ? _buildAttendanceItem(attendanceHistory[secondIndex])
+                          : const SizedBox(),
+                      // Agar ikkinchi element bo'lmasa bo'sh joy
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -50,7 +67,6 @@ class AttendanceHistoryList extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey.shade300),
-
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
@@ -71,14 +87,14 @@ class AttendanceHistoryList extends StatelessWidget {
               day['status'] == 'pedding'
                   ? "⏳ Davomat kutilmoqda"
                   : day['status'] == 'false'
-                  ? "❌ Davomat olinmadi"
-                  :"✅ Davomat olindi",
+                      ? "❌ Davomat olinmadi"
+                      : "✅ Davomat olindi",
               style: TextStyle(
                 color: day['status'] == 'true'
                     ? Colors.green
                     : day['status'] == 'false'
-                    ? Colors.red
-                    : Colors.orange,
+                        ? Colors.red
+                        : Colors.orange,
                 fontWeight: FontWeight.bold,
               ),
             ),

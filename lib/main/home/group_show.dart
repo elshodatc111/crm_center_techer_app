@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crm_center_techer/main/home/widget/group_users.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -41,7 +42,10 @@ class _GroupShowState extends State<GroupShow> {
 
     final response = await http.get(
       url,
-      headers: {'Authorization': 'Bearer $token', 'Content-Type': 'application/json'},
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
     );
 
     if (response.statusCode == 200) {
@@ -56,7 +60,11 @@ class _GroupShowState extends State<GroupShow> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Guruh ma'lumotlari", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+        title: const Text("Guruh ma'lumotlari",
+            style: TextStyle(
+                fontSize: 20.0,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)),
         backgroundColor: Colors.blue,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -93,12 +101,31 @@ class _GroupShowState extends State<GroupShow> {
                   const SizedBox(height: 16),
                   group['davomad_day'] == true
                       ? CustomButton(
-                    label: "Davomat olish",
+                          label: "Davomat olish",
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AttendanceScreen(
+                                    users: users, groupId: group['id']),
+                              ),
+                            ).then((value) {
+                              if (value == true) {
+                                _fetchData();
+                              }
+                            });
+                          },
+                        )
+                      : const Text("Bugun dars kuni emas."),
+                  const SizedBox(height: 4.0),
+                  CustomButton(
+                    label: "Dars kunlari",
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AttendanceScreen(users: users, groupId: group['id']),
+                          builder: (context) => AttendanceHistoryList(
+                              attendanceHistory: attendanceHistory),
                         ),
                       ).then((value) {
                         if (value == true) {
@@ -106,10 +133,25 @@ class _GroupShowState extends State<GroupShow> {
                         }
                       });
                     },
-                  )
-                      : const Text("Bugun dars kuni emas."),
+                  ),
+                  const SizedBox(height: 4.0),
+                  CustomButton(
+                    label: "Guruh talabalari",
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GroupUsers(
+                              groupUsers: users),
+                        ),
+                      ).then((value) {
+                        if (value == true) {
+                          _fetchData();
+                        }
+                      });
+                    },
+                  ),
                   const SizedBox(height: 16),
-                  AttendanceHistoryList(attendanceHistory: attendanceHistory),
                 ],
               ),
             ),
